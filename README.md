@@ -1,4 +1,5 @@
-# Node.js training presentation slides
+# node.js-training-slides
+The node.js training presentation slides
 
 - [Copyright](LICENSE)
 - [Syllabus](Syllabus.md)
