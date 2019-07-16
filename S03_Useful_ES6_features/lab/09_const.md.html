@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># const
+--
+
+It allows you to be immutable with variables
+
+---
+
+### To use const just replace `var` with `const`
+```js
+const foo = 123;
+```
+---
+
+### Good practice for both 
+readability and maintainability
+
+```js
+// Low readability
+if (x > 10) {
+}
+
+// Better!
+const maxRows = 10;
+if (x > maxRows) {
+}
+```
+---
+
+### const declarations must be initialized
+The following is a compiler error:
+```js
+const foo; // ERROR: const declarations must be initialized
+```
+---
+
+### Left hand side of assignment cannot be a constant
+```js
+const foo = 123;
+foo = 456; // ERROR: Left-hand side of an assignment expression cannot be a constant
+```
+---
+
+### Block Scoped
+```js
+const foo = 123;
+if (true) {
+    const foo = 456; // Allowed as its a new variable limited to this `if` block
+}
+```
+---
+
+### Deep immutability
+`const` works with object literals
+```js
+const foo = { bar: 123 };
+foo = { bar: 456 }; // ERROR : Left hand side of an assignment expression cannot be a constant
+```
+--
+
+Allows sub properties of objects to be mutated
+```js
+const foo = { bar: 123 };
+foo.bar = 456; // Allowed!
+console.log(foo); // { bar: 456 }
+```
+---
+
+### Prefer const
+Always use const, unless you plan to either lazily initialization of a variable, or do a reassignment (use let for those cases).
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Async Hooks (experimental)
+
+`async_hooks`, the new and still experimental API that came out with node 8 
+
+--
+
+`async_hooks` API essentially makes it easier for you to track your resources (bye dtrace?). You start off by initializing it with an object of callbacks: init, before, after and destroy.
+
+--
+
+![async_hooks API in a gist](https://miro.medium.com/max/500/1*WvQ_cZPu8DaHTx2StbpPTA.jpeg)
+
+---
+
+# Async Hooks ...
+
+`async_hooks` is based around a concept of resources. A resource triggers async_hooks callbacks from above to be called, and could be anything from TTYWRAP to SSLCONNECTION to the one you defined with the Embedder API (more on this later).
+
+```js
+var asyncHooks = require('async_hooks')
+var hooks = {
+  init: init,
+  before: before, 
+  after: after,
+  destroy: destroy
+}
+var asyncHook = asyncHooks.createHook(hooks)
+```
+---
+
+# Async Hooks ...
+
+If you were to write a server with http.createServer(), start the async_hooks API, and look at init callback’s resource, you will end up with these ones, for example:
+```js
+var http = require('http')
+// asyncHook being defined in code snippet above
+asyncHook.enable()
+http.createServer(function (req, res) {
+  res.end('hello qts')
+}).listen(8079)
+function init (asyncId, type, triggerId) {
+  fs.writeSync(1, `${type} \n`)
+}
+```
+---
+
+### An `async_hooks` init callback
+
+```js
+function init (asyncId, type, triggerId) {}
+```
+![async_hooks init callback
+](https://miro.medium.com/max/700/1*RpvWsEE-O7_8BgEA6ezIdA.jpeg)
+
+---
+
+### Create a trace on ‘init’, and group spans by their ‘triggerId’
+
+![create a trace on ‘init’, and group spans by their ‘triggerId’](https://miro.medium.com/max/500/1*5wZTATIQvOXIebSR9MPRAg.jpeg)
+
+---
+
+# Embedder API
+If you are working with native C++ bindings, you may want to define your own resources. You could do that easily with the Embedder API. Here is an example setting this up with mafintosh’s utp-native library:
+```cpp
+var AsyncResource = require('async_hooks').AsyncResource
+var utp = require('utp-native')
+var resource = new AsyncResource('UTPNative')
+var server = utp.createServer(function (socket) {
+  socket.pipe(socket)
+})
+server.listen(1337, function () {
+  var socket = utp.connect(1337)
+  resource.emitBefore()
+  socket.write('hello qts')
+  resource.emitAfter()
+  socket.on('data', function (data) {
+    console.log('resourceId', resource.asyncId())
+    console.log('triggerAsyncId', resource.triggerAsyncId())
+    console.log('this is my data ', data)
+  })
+})
+server.on('close', function () {
+  resource.emitDestroy()
+})
+```
+---
+
+# What’s next?
+
+`async_hooks` is still pretty experimental — things broke™, and API is possibly still changing (i.e. async_hooks.executionAsyncId() used to be async_hooks.currentId(), o/), but it’s pretty awesome to see node putting together new ways for us to monitor our applications.
+
+---
+
+# Further info:
+
+Performance Timing API jasnell has been working on landed in node last week. This is pretty exciting news for your node application performance monitoring and I’d definitely suggest looking into it.
+
+--
+
+If you’re using async_hooks in production, there is an issue open for gathering some information.
+
+--
+
+Since async_hooks is only available starting node 8, I would also suggest to look into davidmarkclem’s async-tracer — it supports node’s previous versions.
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

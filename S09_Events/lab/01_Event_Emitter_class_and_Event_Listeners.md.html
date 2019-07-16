@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Event Emitter class
+Node.js core API is based on asynchronous event-driven architecture in which certain kind of objects called emitters periodically emit events that cause listener objects to be called.
+
+--
+
+> All objects that emit events are members of EventEmitter class. These objects expose an eventEmitter.on() function that allows one or more functions to be attached to named events emitted by the object.
+
+--
+
+When the EventEmitter object emits an event, all of the functions attached to that specific event are called synchronously. All values returned by the called listeners are ignored and will be discarded.
+
+---
+## Consider the following example
+```js
+const EventEmitter = require('events');
+class MyEmitter extends EventEmitter {}
+const myEmitter = new MyEmitter();
+myEmitter.on('event', function(a, b) {
+  console.log(a, b, this);
+  // Prints:
+  //   Technoetics Club MyEmitter {
+  //     domain: null,
+  //     _events: { event: [Function] },
+  //     _eventsCount: 1,
+  //     _maxListeners: undefined }
+});
+myEmitter.emit('event','Technoetics', 'Club');
+```
+---
+
+## setImmediate() or process.nextTick()
+If we want to break that flow and switch to asynchronous mode then we can use setImmediate() or process.nextTick() methods
+```js
+const EventEmitter = require('events');
+class MyEmitter extends EventEmitter {}
+const myEmitter = new MyEmitter();
+myEmitter.on('event', function(a, b) {
+  setImmediate(() => {
+    console.log('this happens asynchronously');
+  });
+  function cb(){
+    console.log('processed in next iteration',a,b);
+  }
+  process.nextTick(cb)
+  console.log('processed in first iteration',a,b);
+});
+myEmitter.emit('event', 'Technoetics', 'Club');
+/**
+ * Output of the above Program:
+ * processed in first iteration Technoetics Club
+ * processed in next iteration Technoetics Club
+ * this happens asynchronously
+ */
+```
+---
+
+## Handling event calls in Node.js
+```js
+const EventEmitter = require('events');
+class MyEmitter extends EventEmitter {}
+const myEmitter = new MyEmitter();
+const myEmitter2 = new MyEmitter();
+let m = 0,n=0;
+myEmitter.on('event',() => {
+  console.log("M value:",++m);
+})
+myEmitter.emit('emit');
+myEmitter.emit('event');
+myEmitter2.once('event', () => {
+  console.log("N value:",++n);
+});
+myEmitter2.emit('event');
+// Prints: 1
+myEmitter2.emit('event');
+//Ignored
+```
+---
+
+# Event Listeners
+In this analogy, the event will be fired once (when Node is ready to call the callback) and the callback acts as the event handler.
+
+--
+
+### Call me when you’re ready, Node!
+The original way Node handled asynchronous events was with callback. This was a long time ago, before JavaScript had native promises support and the async/await feature.
+
+Callbacks are basically just functions that you pass to other functions. This is possible in JavaScript because functions are first class objects.
+
+It’s important to understand that callbacks do not indicate an asynchronous call in the code. A function can call the callback both synchronously and asynchronously.
+
+---
+
+## Example: Raise and Handle Node.js events
+```js
+// get the reference of EventEmitter class of events module
+var events = require('events');
+
+//create an object of EventEmitter class by using above reference
+var em = new events.EventEmitter();
+
+//Subscribe for FirstEvent
+em.on('FirstEvent', function (data) {
+    console.log('First subscriber: ' + data);
+});
+
+// Raising FirstEvent
+em.emit('FirstEvent', 'This is my first Node.js event emitter example.');
+```
+---
+
+## Example: EventEmitter
+```js
+var emitter = require('events').EventEmitter;
+var em = new emitter();
+
+//Subscribe FirstEvent
+em.addListener('FirstEvent', function (data) {
+    console.log('First subscriber: ' + data);
+});
+
+//Subscribe SecondEvent
+em.on('SecondEvent', function (data) {
+    console.log('First subscriber: ' + data);
+});
+
+// Raising FirstEvent
+em.emit('FirstEvent', 'This is my first Node.js event emitter example.');
+
+// Raising SecondEvent
+em.emit('SecondEvent', 'This is my second Node.js event emitter example.');
+```
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

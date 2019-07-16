@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Debugging Node.js with Google Chrome
+Debugging is the task to identify and remove errors from software applications, and is more than just printing out values in your code.
+
+--
+## Why console.log is not the best option?
+Using console.log to debug your code generally dives you into an infinite loop of “stopping your app, adding a console.log, and start your app again” operations.
+
+--
+## Debugging tools
+Debugging tools provide you with a few important functionalities that console.log isn’t able to provide.
+
+---
+
+## Setting up Chrome for Node.js debugging
+With Chrome 57+, the Node.js debugging feature is enabled as default.
+
+So if you haven’t done it yet, update Google Chrome to the latest version and be sure you are using Node.js 6.4+.
+
+--
+
+To start debugging, run your Node.js application with the --inspect flag.
+```shell
+$ node --inspect <your_file>.js
+```
+--
+
+![](https://cdn-images-1.medium.com/max/800/1*NIVrIoEiniOt6cP-d-0LFQ.png)
+
+---
+
+### Inspect with Chrome DevTools
+Next, ignore the URL starting with `chrome-devtools://` that is displayed in your terminal, but open `about:inspect` in Google Chrome instead.
+
+![](https://cdn-images-1.medium.com/max/800/1*QAmWRyPtdfF5X7VuvDN1zg.png)
+
+--
+
+Finally, click on “Open dedicated DevTools for Node” to start debugging your application’s code.
+
+---
+
+### Developer Tools for Node
+![](https://cdn-images-1.medium.com/max/800/1*zQ1uLl_qiRIAJ7Lxw_LFAQ.png)
+
+
+---
+
+### Chrome DevTools in action
+```js
+// @file hello-name.js
+'use strict'
+
+const express = require('express')
+const app = express()
+
+const PORT = process.env.PORT || 3000
+
+function capitalize (str) {
+  const firstLetter = str.charAt(0) // we can check what's inside here
+  return `${firstLetter.toUpperCase()}${str.slice(1)}`
+}
+
+app.get('/:name?', (req, res) => {
+  const name = req.params.name ? capitalize(req.params.name) : 'World'
+  res.send(`Hello ${name}!`)
+})
+
+app.listen(PORT, () => console.log(`App listening on *:${PORT}`))
+```
+---
+
+### Using Breakpoints to debug an Express application
+![](https://cdn-images-1.medium.com/max/800/1*jTzAaK_zRNynCMvlDbx2rA.png)
+
+---
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

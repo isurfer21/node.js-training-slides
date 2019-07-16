@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Express
+
+### v4.17.1
+Fast, unopinionated, minimalist web framework for Node.js
+```shell
+$ npm install express --save
+```
+---
+# Features
+
+## Web Applications
+Express is a minimal and flexible Node.js web application framework that provides a robust set of features for web and mobile applications.
+
+--
+## APIs
+With a myriad of HTTP utility methods and middleware at your disposal, creating a robust API is quick and easy.
+
+---
+## Performance
+Express provides a thin layer of fundamental web application features, without obscuring Node.js features that you know and love.
+
+--
+## Frameworks
+Many popular frameworks are based on Express.
+
+---
+## Installing
+Assuming you’ve already installed Node.js, create a directory to hold your application, and make that your working directory.
+```shell
+$ mkdir myapp
+$ cd myapp
+```
+--
+
+Use the npm init command to create a package.json file for your application.
+```shell
+$ npm init
+```
+--
+
+This command prompts you for a number of things, such as the name and version of your application. For now, you can simply hit RETURN to accept the defaults for most of them, with the following exception:
+```js
+entry point: (index.js)
+```
+Enter app.js, or whatever you want the name of the main file to be. If you want it to be index.js, hit RETURN to accept the suggested default file name.
+
+---
+## Dependencies 
+Now install Express in the myapp directory and save it in the dependencies list.
+```shell
+$ npm install express --save
+```
+--
+
+But installing Express temporarily wihtout adding it to the dependencies list.
+```shell
+$ npm install express --no-save
+```
+--
+
+> By default with version npm 5.0+ npm install adds the module to the dependencies list in the package.json file; with earlier versions of npm, you must specify the --save option explicitly. Then, afterwards, running npm install in the app directory will automatically install modules in the dependencies list.
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

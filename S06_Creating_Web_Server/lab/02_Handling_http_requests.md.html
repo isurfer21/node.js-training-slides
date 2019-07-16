@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Handling HTTP requests
+
+---
+
+## HTTP Server
+```js
+var http = require('http');
+var server = http.createServer(function (request, response) {
+    console.log('request starting...');
+    // respond
+    response.write('hello client!');
+    response.end();
+});
+server.listen(3000);
+console.log('Server running at http://127.0.0.1:3000/');
+```
+---
+
+## Flow diagram
+![](https://cdn-images-1.medium.com/max/1600/1*nOoMMrTvpGs6ev3Va4uFGw.png)
+
+---
+
+## Headers in Node.js
+![](https://cdn-images-1.medium.com/max/1600/1*KnddttrKoM_nQudNlMxojw.png)
+
+---
+
+### response.setHeader
+```
+response.setHeader(“Content-Type”, “text/html”);
+```
+--
+
+### response.writeHead 
+```
+response.writeHead(200, { 'Content-Type': 'text/html' });
+```
+---
+
+## Main members of req and res 
+![](https://cdn-images-1.medium.com/max/1600/1*wQ2yLfgIEEeqWdNhwsVqrw.png)
+
+---
+
+## 404 error
+![](https://cdn-images-1.medium.com/max/1600/1*zfDIu2lzQ8cltXOHh7QJeA.png)
+
+---
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

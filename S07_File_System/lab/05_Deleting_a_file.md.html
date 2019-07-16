@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Deleting a file
+
+---
+
+## Async
+```js
+// @file deleteFile.js
+
+// include node fs module
+var fs = require('fs');
+// delete file named 'sample.txt'
+fs.unlink('sample.txt', function (err) {
+    if (err) throw err;
+    // if no error, file has been deleted successfully
+    console.log('File deleted!');
+}); 
+```
+--
+
+### Output: Success
+```shell
+$ node deleteFile.js
+File deleted!
+```
+
+---
+
+### Output: Failure
+```shell
+$ node deleteFile2.js 
+/home/arjun/workspace/nodejs/deleteFile2.js:6
+    if (err) throw err;
+             ^
+ 
+Error: ENOENT: no such file or directory, unlink 'sample.txt'
+```
+
+---
+
+## Sync
+```js
+// @file deleteFileSynchronously.js
+
+// include node fs module
+var fs = require('fs'); 
+// delete file named 'sample.txt' Synchronously
+fs.unlinkSync('sample.txt');
+console.log('File deleted!');
+```
+--
+
+### Output: Success
+```shell
+$ node deleteFileSynchronously.js
+File deleted!
+```
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Truthy
+--
+
+JavaScript has a concept of truthy i.e. things that evaluate like true would in certain positions (e.g. if conditions and the boolean && || operators). 
+```js
+if (123) { // Will be treated like `true`
+  console.log('Any number other than 0 is truthy');
+}
+```
+---
+
+### Chart
+Something that isn't truthy is called falsy.
+
+| Variable Type   | When it is *falsy*       | When it is *truthy*      |
+|-----------------|--------------------------|--------------------------|
+| `boolean`       | `false`                  | `true`                   |
+| `string`        | `''` (empty string)      | any other string         |
+| `number`        | `0`  `NaN`               | any other number         |
+| `null`          | always                   | never                    |
+| `undefined`     | always                   | never                    |
+| Any other Object including empty ones like `{}`,`[]` | never | always |
+
+---
+
+### Being explicit
+
+> The !! pattern
+
+boolean (one of true|false). 
+
+You can easily convert values to a true boolean by prefixing it with !! e.g. !!foo. 
+Its just ! used twice. 
+
+---
+
+### truthy -!> false -!> true
+
+```js
+// Direct variables
+const hasName = !!name;
+
+// As members of objects
+const someObj = {
+  hasName: !!name
+}
+
+// e.g. in ReactJS JSX
+{!!someName && <div>{someName}</div>}
+```
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

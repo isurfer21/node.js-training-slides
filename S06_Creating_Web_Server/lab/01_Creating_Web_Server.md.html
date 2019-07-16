@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Create HTTP Web Server 
+The Node.js framework is mostly used to create server based applications. The framework can easily be used to create web servers which can serve content to users.
+
+There are a variety of modules such as the "http" and "request" module, which helps in processing server related requests in the web server space. 
+
+---
+
+## Node as web server using HTTP
+Let's look at an example of how to create and run our first Node js application.
+
+Our application is going to create a simple server module which will listen on port no 7000. If a request is made through the browser on this port no, then server application will send a 'Hello' World' response to the client.
+
+---
+
+## Example: Node as web server using HTTP
+```js
+var http=require('http')
+var server=http.createServer((function(request,response)
+{
+	response.writeHead(200,
+	{"Content-Type" : "text/plain"});
+	response.end("Hello World\n");
+}));
+server.listen(7000);
+```
+---
+
+## Explanation: Node as web server using HTTP
+![Node as web server using HTTP](https://www.guru99.com/images/NodeJS/010716_0600_NodejsHttpT1.png)
+
+---
+
+## Handling GET Requests in Node.js
+Making a GET Request to get the data from another site is relatively very simple in Node.js. To make a Get request in the node, we need to first have the request module installed. This can be done by executing the following line in the command line
+```bash
+npm install request
+```
+---
+
+## Example: Handling GET Requests in Node.js
+```js
+var request = require("request");
+request("http://www.google.com",function(error,response,body) {
+	console.log(body);
+});
+```	
+---
+
+## Explanation: Handling GET Requests in Node.js
+![Handling GET Requests in Node.js](https://www.guru99.com/images/NodeJS/010716_0600_NodejsHttpT4.png)
+
+---
+
+## The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

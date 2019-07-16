@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Opening a file
+
+--
+
+## Using open()
+The open() method opens a file by passing a file name to the method (or path string), along with how to open the file using a flag as the second parameter.
+
+---
+## Example
+```js
+var fs = require("fs");
+var path = "c:\\Temp\\Test.txt";
+
+fs.open(path, "w+", function(error, fd) {
+  if (error) {
+    console.error("open error:  " + error.message);
+  } else {
+    console.log("Successfully opened " + path);
+  }
+});
+```
+
+---
+
+### r
+Open for reading. An exception occurs if the file does not exist.
+
+### r+
+Open for reading and writing. An exception occurs if the file does not exist.
+
+### rs
+Open for reading in synchronous mode, which instructs the operating system to bypass the system cache. This is mostly used for opening files on NFS mounts; it does not make open() a synchronous method.
+
+### rs+
+Open for reading and writing in synchronous mode.
+
+---
+
+### w
+Open for writing. If the file does not exist, it is created. If the file already exists, it is truncated.
+
+### wx
+Similar to the w flag, but the file is opened in exclusive mode. Exclusive mode ensures that the files are newly created.
+
+### w+
+Open for reading and writing. If the file does not exist, it is created. If the file already exists, it is truncated.
+
+### wx+
+Similar to the w+ flag, but the file is opened in exclusive mode.
+
+---
+
+### a
+Open for appending. If the file does not exist, it is created.
+
+### ax
+Similar to the a flag, but the file is opened in exclusive mode.
+
+### a+
+Open for reading and appending. If the file does not exist, it is created.
+
+### ax+
+Similar to the a+ flag, but the file is opened in exclusive mode.
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

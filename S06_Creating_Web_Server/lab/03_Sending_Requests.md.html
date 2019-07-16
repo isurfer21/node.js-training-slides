@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Sending Request
+It’s actually incredibly easy to send http/https requests to servers with Node.js. Node contains a bunch of native function for that, making it very easy to send REST requests. I’m going to demonstrate with Node’s own http.request(options[, callback]) method.
+
+--
+
+![](https://shiya.io/wp-content/uploads/2015/09/http-between-servers.png)
+
+---
+
+# GET 
+It is just the URL with or without headers. There are some common headers, like authorization. Without the headers it’s just like typing an address in your server. A GET request doesn’t change anything on the requested server.
+
+--
+
+An example GET request looks like this:
+```
+GET /viewingservice/v1/supported HTTP/1.1
+Host: developer.api.autodesk.com
+Authorization: Bearer OM0GTVs3ycQ0nkU9X9cneBnInOuE
+```
+---
+
+# POST
+It is a request with headers and/or data. Data can usually be a string or a data stream, which means it’s a file.
+
+--
+
+An example POST request looks like this:
+```
+POST /authentication/v1/authenticate HTTP/1.1
+Host: developer.api.autodesk.com
+Content-Type: application/x-www-form-urlencoded
+client_id=my_client_id&client_secret=my_client_secret&grant_type=client_credentials
+```
+---
+
+# PUT 
+It is similar to POST but idempotent, which means no matter how many times you send the request the result will be the same.
+
+--
+
+An example PUT request looks like this:
+```
+PUT /oss/v1/buckets/shiyas-bucket-100/objects/sometext.txt HTTP/1.1
+Host: developer.api.autodesk.com
+Authorization: Bearer OM0GTVs3ycQ0nkU9X9cneBnInOuE
+Content-Type: application/octet-stream
+"some text string"
+```
+---
+
+# DELETE 
+It is what it sounds like, deleting a resource from the requested server. You need to know the exact URL of the resource you’d like to delete.
+
+--
+
+An example DELETE request looks like this:
+```
+DELETE /derivativeservice/v2/registration/{{resource_urn}} HTTP/1.1
+Host: developer.api.autodesk.com
+Authorization: Bearer glKJvrua6pWF5ogsOg9f3oOs69SC
+```
+
+---
+
+## http.request(options[, callback])
+Node’s https is just http over TLS/SSL, the syntax are the same. When writing a https request, just replace http with https.
+
+--
+
+### First include the http module:
+```js
+var http = require("http");
+Then create a variable called options, this is going to contain all the parameters in the request.
+```
+---
+
+### A POST request example:
+```js
+var options = {
+    host: "developer.api.autodesk.com",
+    path: "/oss/v1/buckets",
+    method: "POST",
+    headers: {
+        "Content-Type": "application/json"
+        "Authorization": "Bearer token"
+    }
+};
+```
+---
+
+### A PUT request example:
+```js
+var bucket = {};
+bucket.name = "shiyas-bucket";
+
+var file = {};
+file.name = "sometext.txt";
+
+var options = {
+    host: "developer.api.autodesk.com",
+    path: "/oss/v1/buckets/" + bucket.name + "/objects/" + file.name,
+    method: "PUT", 
+    headers: {
+        "Content-Type": "application/octet-stream",
+        "Authorization": "Bearer token"
+    }
+};
+```
+---
+
+### Now construct the request with options and a callback function.
+```js
+var req = http.request(options, function (res) {
+    var responseString = "";
+
+    res.on("data", function (data) {
+        responseString += data;
+        // save all the data from response
+    });
+    res.on("end", function () {
+        console.log(responseString); 
+        // print to console when response ends
+    });
+});
+```
+---
+
+### Sending the request:
+```js
+var reqBody = "sometext";
+req.write(reqBody);
+```
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

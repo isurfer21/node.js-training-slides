@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Double Negation
+
+--
+
+### Double negation comparison operators
+!! is not an operator. It’s just the ! operator twice
+
+--
+
+### These values are equivalent to false in conditional statements
+
+* false
+	* null
+	* undefined
+	* The empty string "" ('')
+	* The number 0
+	* The number NaN
+
+---
+
+### All other values are equivalent to true.
+```js
+          !!false === false
+           !!true === true
+
+              !!0 === false!!parseInt("foo") === false // NaN is falsy
+              !!1 === true
+             !!-1 === true  // -1 is truthy
+
+             !!"" === false // empty string is falsy
+          !!"foo" === true  // non-empty string is truthy
+        !!"false" === true  // ...even if it contains a falsy value
+
+     !!window.foo === false // undefined is falsy
+           !!null === false // null is falsy
+
+             !!{} === true  // an (empty) object is truthy
+             !![] === true  // an (empty) array is truthy; PHP programmers beware!
+```
+---
+
+### Primitive type casting
+```js
+Boolean(foo) === !!foo
+Number(foo)  === +foo
+String(foo)  === ''+foo
+```
+---
+
+### And more examples!
+```js
+return !!window; //Returns true
+return !!null; //Returns false
+return !!undefined; //Returns false
+return !!false; //Returns false
+return !!true; //Returns true
+return !!""; //Returns false
+return !!"Hi"; //Returns true
+return !!0; //Returns false
+return !!1; //Returns true
+```
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

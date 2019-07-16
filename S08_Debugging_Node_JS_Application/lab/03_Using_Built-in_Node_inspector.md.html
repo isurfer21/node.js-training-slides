@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Using Built-in Node inspector
+You can run node's built in v8 inspector! The node-inspector plug-in is not needed anymore.
+
+Simply pass the inspector flag and you'll be provided with a URL to the inspector
+```shell
+node --inspect server.js
+```
+---
+
+## Using Node inspector
+Install the node inspector:
+```shell
+npm install -g node-inspector
+```
+Run your app with the node-debug command:
+```shell
+node-debug filename.js
+```
+---
+
+### Using any Browser
+After that, hit in Browser:
+```
+http://localhost:8080/debug?port=5858
+```
+--
+
+Sometimes port 8080 might not be available on your computer. You may get the following error:
+```shell
+Cannot start the server at 0.0.0.0:8080. Error: listen EACCES.
+```
+--
+
+In this case, start the node inspector on a different port using the following command.
+```shell
+$node-inspector --web-port=6500
+```
+---
+
+### You will see something like this
+![](https://i.stack.imgur.com/JpaL6.png)
+
+---
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

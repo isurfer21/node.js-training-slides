@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Read Files
+Node.js, as you probably know, is much different than your typical JavaScript in the browser. It has its own set of libraries meant for handling OS and filesystem tasks, like opening and reading files.
+
+--
+
+### 2 Ways
+There are 2 ways you can open and read a file using the fs module:
+ - Load all of the contents at once (buffering)
+ - Incrementally load contents (streaming)
+
+---
+
+# Buffering Contents with fs.readFile
+This is the most common way to read a file with Node.js, especially for beginners, due to its simplicity and convenience. 
+
+---
+
+## Example of using fs.readFile
+```js
+var fs = require('fs');
+fs.readFile('my-file.txt', 'utf8', function(err, data) {  
+    if (err) throw err;
+    console.log(data);
+});
+```
+--
+
+### After removing the utf8 argument in code
+```shell
+$ node read-file.js
+<Buffer 48 65 79 20 74 68 65 72 65 21>  
+```
+---
+
+## How to load a file synchronously?
+```js
+var fs = require('fs');
+try {  
+    var data = fs.readFileSync('my-file.txt', 'utf8');
+    console.log(data);    
+} catch(e) {
+    console.log('Error:', e.stack);
+}
+```
+---
+
+# Streaming Contents with fs.createReadStream
+The second way to open and read a file is to open it as a Stream using the `fs.createReadStream` method. All Node streams are instances of the `EventEmitter` object, allowing you to subscribe to important events.
+
+--
+
+## Usefulness
+A readable stream object can be useful for a lot of reasons, a few of which include
+- Smaller memory footprint
+- Faster response time
+- Piping data
+
+---
+
+## Example 1: 'hello world' of file streaming
+```js
+var fs = require('fs');
+
+var data = '';
+
+var readStream = fs.createReadStream('my-file.txt', 'utf8');
+
+readStream.on('data', function(chunk) {  
+    data += chunk;
+}).on('end', function() {
+    console.log(data);
+});
+```
+---
+
+## Example 2: an Express route that handles a file request
+```js
+var fs = require('fs');  
+var path = require('path');  
+var http = require('http');
+
+var staticBasePath = './static';
+
+var staticServe = function(req, res) {  
+    var fileLoc = path.resolve(staticBasePath);
+    fileLoc = path.join(fileLoc, req.url);
+
+        var stream = fs.createReadStream(fileLoc);
+
+        stream.on('error', function(error) {
+            res.writeHead(404, 'Not Found');
+            res.end();
+        });
+
+        stream.pipe(res);
+};
+
+var httpServer = http.createServer(staticServe);  
+httpServer.listen(8080);  
+```
+
+---
+
+# Conclusion
+
+We learned the basics of reading files, as well as some advanced loading methods using Stream objects.
+
+### Knowing when to use them is the key
+
+that should be carefully considered for memory-constrained or time-constrained applications.
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

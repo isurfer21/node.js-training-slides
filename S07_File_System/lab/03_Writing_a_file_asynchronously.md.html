@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Writing a file asynchronously
+Does calling `fs.writeFileSync` trigger a synchronous write to the file system?
+
+---
+
+## Recommendation
+Blocking the main thread is bad practice in node.js. Synchronous function should only be used when debugging or when no other options are availables.
+
+--
+
+`fs.writeFileSync` behaves similarly to `fs.writeFile`, but does not take a callback as it completes synchronously and therefore blocks the main thread. Most node.js developers prefer the asynchronous variants which will cause virtually no delay in the program execution.
+
+---
+
+## DTrace
+DTrace is a performance analysis and troubleshooting tool that is included by default with various operating systems, including Solaris, Mac OS X and FreeBSD. A Linux port is in development.
+
+> DTrace instruments all software.
+
+> The name is short for Dynamic Tracing
+
+For more details visit [dtrace.org](http://dtrace.org/blogs/about/)
+
+---
+
+## fs.writeFile()
+```js
+// writefile.js
+var fs = require('fs');
+fs.writeFile('/tmp/fs.tmp', '', function(err) {
+  if (err) throw err;
+});
+```
+
+### Output
+```shell
+$ sudo dtrace -qn 'syscall::open*:entry /pid == $target \
+  && copyinstr(arg0) == "/tmp/fs.tmp"/ { printf("%s: %d", probefunc, arg1); }' \
+  -c 'node writefile.js'
+open64: 769
+$ fileflags 769
+  769: O_WRONLY|O_CREAT|O_TRUNC
+```
+---
+
+It turns out that open64(2) was called for our file, given the following options.
+
+- O_WRONLY: open write-only
+- O_CREAT: create the file if it doesn't exist
+- O_TRUNC: truncate the file
+
+Fairly standard options to open a file.
+
+--
+
+Since none of the options are for synchronous IO (`O_SYNC`, `O_DSYNC`, etc.) this file write is asynchronous to FS, and the call to write(2) returns before the data is guaranteed to be sitting on stable storage.
+
+---
+
+## fs.writeFileSync()
+```js
+// writefilesync.js
+var fs = require('fs');
+fs.writeFileSync('/tmp/fs.tmp', '');
+```
+
+### Output
+```shell
+$ sudo dtrace -qn 'syscall::open*:entry /pid == $target \
+  && copyinstr(arg0) == "/tmp/fs.tmp"/ { printf("%s: %d", probefunc, arg1); }' \
+  -c 'node writefilesync.js'
+open64: 769
+$ fileflags 769
+  769: O_WRONLY|O_CREAT|O_TRUNC
+```
+---
+
+## Common Flags
+Let's use a simple C program to open a file using `fopen(3C)` to see what flags it uses.
+```c
+/* fs.c */
+#include <stdio.h>
+int main(int argc, char **argv) {
+        FILE *file = fopen("/tmp/fs-c.tmp", "w");
+}
+```
+
+### Output
+```shell
+$ cc fs.c -o fs
+$ sudo dtrace -qn 'syscall::open*:entry /pid == $target \
+  && copyinstr(arg0) == "/tmp/fs-c.tmp"/ { printf("%s: %d", probefunc, arg1); }' \
+  -c './fs'
+open: 769
+$ fileflags 769
+  769: O_WRONLY|O_CREAT|O_TRUNC
+```
+---
+
+## Conclusion
+`fs.writeFileSync` is synchronous in the sense that it blocks the event loop while it executes. It does NOT ask the Kernel to do a synchronous write to the underlying file system.
+
+> This script will block the event loop while the data is written to the file (or so we think)...
+
+If you want to open a file for synchronous IO, you'll have to use the lower level `fs` functions that Node offers such as `fs.open()` and `fs.fsync()`.
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

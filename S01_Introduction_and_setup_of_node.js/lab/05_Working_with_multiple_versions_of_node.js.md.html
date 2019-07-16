@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Working with multiple versions of node.js
+
+### Matter of fact
+The AngularJS application will ONLY run on Node.js version 9 (it crashes and causes weird bugs if it’s not), and
+
+--
+
+Our React application needs Node version 10 or above to take advantage of all the ES6 and beyond features.
+
+---
+
+## NVM
+While it doesn’t sound complicated, what NVM can do is awesome. It makes it possible to:
+
+Access every long term support (LTS) version of Node.js from v0.1.14 to the latest version today, which happens to be v.11.10.1, as I write this,
+
+--
+
+Download any one of those remote LTS versions of Node locally with a simple command,
+Set up aliases to switch between different downloaded versions of Node with ease,
+
+--
+
+Default to automatically use whichever version of Node.js is specified if a .nvmrc file is present in a repo,
+
+--
+
+And it works with multiple types of shells: Sh, Bash, Zsh, Dash, Ksh, (not Fish though).
+As long as you’re fairly comfortable with the command line, you can use NVM.
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

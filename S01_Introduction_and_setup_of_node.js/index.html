@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Slide</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/9.1.0/styles/monokai.min.css">
+    <script src="https://cdn.jsdelivr.net/highlight.js/9.1.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <style>*{margin:0;padding:0;box-sizing:border-box}#slide{display:none}.slide{white-space:nowrap}.slide-content{align-self:center}@media screen{body{position:absolute;top:50%;left:50%}.slide-4x3{width:1024px;height:768px;margin:-384px 0 0 -512px}.slide-16x9{width:1024px;height:576px;margin:-288px 0 0 -512px}.slide-16x10{width:1024px;height:640px;margin:-320px 0 0 -512px}.slide{position:absolute;width:100%;height:100%;display:flex;justify-content:center;overflow:hidden}}@media print{body{transform:none!important}h1{font-size:1.8rem;line-height:1.5;letter-spacing:-.05rem;font-weight:300}.slide-root{width:100%;display:flex;flex-wrap:wrap;align-items:stretch}.slide-content{transform:none!important}.slide{display:flex;justify-content:center;flex:1;padding:.5rem;margin:.5rem .5rem 4rem .5rem;border:1px solid rgba(0,0,0,0.2);visibility:visible!important}}</style>
+    <script>function trimIndent(e){var t=(e.match(INDENT_RE)||[""])[0].length;if(t>0){var n=e.substring(0,t);return e.replace(new RegExp(n,"g"),"")}}function renderSlide(e,t,n){var i=t.split("\n"),r=-1,o=document.createElement("div"),d=document.createElement("div"),s="";o.className="slide slide-"+n,d.className="slide-content";for(var l=0;l<i.length;l++){var a=i[l];if(a.startsWith("#"))s=s+"<h1>"+a.substring(1)+"</h1>";else if(a.startsWith("  ")||a.startsWith("	"))s=s+"<pre>"+a.replace(/^(  )|\t/,"")+"</pre>";else{a.startsWith(".")&&(a=a.substring(1));for(var c=0;c<a.length;c++){var h=a.charAt(c);"*"==h?-1==r?(s+="<strong>",r=s.length):(r!=s.length?s+="</strong>":s=s.substring(0,s.length-8)+"*",r=-1):s+=h}s+="<br/>"}}d.innerHTML=s,o.appendChild(d),e.appendChild(o),o.style.visibility="hidden"}function render(e){var t=document.createElement("div");t.className="slide-root",document.body.appendChild(t),e=trimIndent(e);for(var n=e.split(/[\s+]\n/gm),i=0;i<n.length;i++){var r=n[i].trim();renderSlide(t,r,i)}return t}function resize(){var e=window.innerWidth,t=window.innerHeight,n=document.body.offsetWidth,i=document.body.offsetHeight,r=n/i>e/t?e/n:t/i;document.body.style.transform="scale("+r+")"}function goTo(e){currentSlide=e,window.location.hash=e;for(var t=document.querySelectorAll(".slide"),n=0;n<t.length;n++){var i=t[n],r=i.children[0],o=.8*i.offsetWidth/r.offsetWidth,d=.8*i.offsetHeight/r.offsetHeight;r.style.transform="scale("+Math.min(o,d)+")",n==currentSlide?i.style.visibility="":i.style.visibility="hidden"}}function next(){goTo(Math.min(currentSlide+1,document.querySelectorAll(".slide").length-1))}function prev(){goTo(Math.max(currentSlide-1,0))}var INDENT_RE=/^(?:( )+|\t+)/,currentSlide=-1;window.onload=function(){resize(),render(document.getElementById("slide").innerHTML),goTo(window.location.hash.substring(1)||0),window.onclick=next,window.onresize=resize,window.onkeydown=function(e){39==e.keyCode?next():37==e.keyCode&&prev()}};</script>
+    <style media="screen">body {
+	font-family: Georgia;
+}
+
+.slide {
+	background-color: yellowgreen;
+}</style>
+  </head>
+  <body class="slide-16x9">
+    <pre id="slide">
+      # Node.js
+Session 1: Introduction & setup of node.js
+Presenter: Abhishek Kumar
+
+# Syllabus
+- Introduction to Node JS
+- What is Node JS, Node.js Process Model
+- Install Node.js on System
+- Working with multiple versions of node.js
+- Working in REPL, Node JS Console
+
+# INTRODUCTION TO NODE.JS
+
+# Simple defn.
+Node.js is 'server-side JavaScript'.
+
+# Complex defn.
+Node.js is a
+- high-performance network applications framework,
+- well optimized for high concurrent environments.
+
+# Can be used via CLI
+It’s a command line tool.
+
+# File &rarr; .js ≠ JavaScript
+In Node.js, ‘.js’ doesn’t mean that its solely written JavaScript. 
+
+# Language contribution
+JS  &rarr; 40%
+C++ &rarr; 60%
+
+# From nodejs.org
+‘Nodes goal is to provide an easy way to build scalable network programs’
+
+# Node &rarr; v10.15.3 LTS
+Recommended for most users
+
+# Node &rarr; v12.2.0 Current
+Includes latest Features
+Recommended for technocrats
+
+It is Open Source.
+
+# Runs on systems
+ √ Linux
+ √ Mac
+ √ Windows
+
+# Performance on
+now &rarr; Linux > Windows
+future &rarr; Linux = Windows
+
+# WHAT IS NODE JS?
+
+# Node.js was created by
+*Ryan Dahl* in *2009*.
+
+# Node.js is a JavaScript runtime
+built on *Chrome’s V8* JavaScript engine.
+
+# What is V8?
+V8 is an open source JavaScript engine developed by *Google*.
+Its written in C++ and is used in *Google Chrome* browser.
+
+# If you know Java, here’s a little analogy
+<img src="img/jre_vs_nodejs_analogy.png">
+
+# Node.js uses
+- *event-driven*
+- *non-blocking I/O model*
+
+# Which makes it
+- *lightweight*
+- *efficient*
+
+# Node's event-driven I/O
+<img src="img/node_event_loop.jpeg">
+
+# Blocking I/O (left) vs Non-Blocking I/O (right)
+<img src="img/blocking_vs_non-blocking_io.png">
+
+# It makes use of
+- event-loops via JavaScript’s
+- callback functionality to implement
+- the non-blocking I/O.
+
+# Traditional - How Does It Work?
+<img src="img/traditional-server-request.png">
+
+# Node.js - How Does It Work?
+<img src="img/nodejs-server-request.png">
+
+# NODE.JS PROCESS MODEL
+
+# Traditional Web Server Model
+<img src="https://www.tutorialsteacher.com/Content/images/nodejs/traditional-web-server-model.png">
+
+# Asynchronous web server model
+using Node.js
+<img src="https://www.tutorialsteacher.com/Content/images/nodejs/nodejs-process-model.png">
+
+# Programs for Node.js
+are written in JavaScript
+but not in the same JavaScript we are use to. 
+
+There is no DOM implementation provided by Node.js
+
+# Means
+You can't do this
+	var element = document.getElementById('elementId');
+
+Everything inside Node.js runs in a *single-thread*.
+
+# INSTALL NODE.JS ON SYSTEM
+
+# How to install Node.js?
+On Windows
+
+# Step 1
+1. Go to the site <a href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a>
+2. Download the necessary binary files.
+
+# In our example,
+We are going to the download the 32-bit setup files for Node.js.
+
+<img src="https://www.guru99.com/images/NodeJS/010716_0458_DownloadIns1.png">
+
+# Step 2
+Double click on the downloaded *.msi* file to start the installation.
+Click the Run button in the first screen to begin the installation.
+
+<img src="https://www.guru99.com/images/NodeJS/010716_0458_DownloadIns2.png">
+
+# Step 3
+In the next screen, click the "Next" button to continue with the installation
+
+<img src="https://www.guru99.com/images/NodeJS/010716_0458_DownloadIns3.png">
+
+# Step 4
+In the next screen Accept the license agreement and click on the Next button.
+
+<img src="https://www.guru99.com/images/NodeJS/010716_0458_DownloadIns4.png">
+
+# Step 5
+In the next screen,
+- choose the location where Node.js needs to be installed and
+- then click on the Next button.
+
+<img src="https://www.guru99.com/images/NodeJS/010716_0458_DownloadIns5.png">
+
+<ol><li>First enter the file location for the installation of Node.js.<br>This is where the files for Node.js will be stored after the installation.</li>
+<li>Click on the Next button to proceed ahead with the installation.</li></ol>
+
+# Step 6
+Accept the default components and click on the next button.
+
+<img src="https://www.guru99.com/images/NodeJS/010716_0458_DownloadIns6.png">
+
+# Step 7
+In the next screen, click the Install button to start the installation.
+
+<img src="https://www.guru99.com/images/NodeJS/010716_0458_DownloadIns7.png">
+
+# Step 8
+Click the Finish button to complete the installation.
+
+<img src="https://www.guru99.com/images/NodeJS/010716_0458_DownloadIns8.png">
+
+# WORKING WITH MULTIPLE VERSIONS OF NODE.JS
+
+# Need for multiple versions of node.js
+Why do we need them at all?
+
+# Due to situations
+There are situations where the ability to switch between different versions of Node.js can be very useful. 
+
+# For example
+If you want to test a module you're developing with the latest bleeding edge version
+without uninstalling the stable version of node, this utility can help.
+
+# AngularJS application
+run on &rarr; Node.js version 9
+it crashes and causes weird bugs if it’s not
+
+# React application
+needs &rarr; Node version 10 or above
+to take advantage of all the ES6 and beyond features.
+
+# Node.js’ package ecosystem
+*NPM* &rarr; is the largest ecosystem of open source libraries in the world.
+
+# Deprecated solution
+Earlier their was node module that could be installed like
+	npm install nvm
+but that would require node.js to be pre-installed
+
+# Node Version Manager (nvm) for Linux
+NVM is a Simple bash script to manage multiple active node.js versions.
+<a href="https://github.com/nvm-sh/nvm">https://github.com/nvm-sh/nvm</a>
+
+# Alternative
+I personally use *n* on macOS
+<a href="https://github.com/tj/n">https://github.com/tj/n</a>
+because of no subshells, no profile setup, no convoluted API, just simple bash
+but *n* is not supported natively on Windows.
+
+# nvm vs n
+nvm keeps the global node modules completely separate from other versions
+n keeps them global that is re-usable across versions
+
+# Node Version Manager (nvm) for Windows
+To manage multiple installations of node.js on a Windows computer
+nvm, with an installer
+node 4+ is supported
+<a href="https://github.com/coreybutler/nvm-windows">https://github.com/coreybutler/nvm-windows</a>
+
+# NVM for Windows vs Linux
+This version of nvm has no dependency on node
+It's written in Go, instead of .bat file
+It doesn't rely on having an existing node installation.
+
+# Control mechanism
+1. modifying the system PATH any time you switch versions, or bypass it by using a .bat file to mimic the node executable and redirect accordingly
+2. putting the symlink in the system PATH, then updating its target to the node installation directory you want to use
+
+# Usage of NVM
+<img src="https://camo.githubusercontent.com/7526a99ee5370b1c33fc061a60f40787e835029c/687474703a2f2f692e696d6775722e636f6d2f7a48457a384f712e706e67">
+
+# Working in REPL
+
+# NODE JS CONSOLE
+
+# The console module
+provides a simple debugging console that is similar to the JavaScript console mechanism provided by web browsers.
+
+# The module exports 2 specific components:
+- Console class
+- global console instance
+
+# Console class
+A Console class with methods such as
+- console.log()
+- console.error()
+- console.warn()
+that can be used to write to any Node.js stream.
+
+# Global console instance
+A global console instance configured to write to
+- process.stdout
+- process.stderr
+The global console can be used without calling require('console').
+
+# Example using the global console:
+	console.log('hello world');
+	// Prints: hello world, to stdout
+	console.log('hello %s', 'world');
+	// Prints: hello world, to stdout
+	console.error(new Error('Whoops, something bad happened'));
+	// Prints: [Error: Whoops, something bad happened], to stderr
+	const name = 'Will Robinson';
+	console.warn(`Danger ${name}! Danger!`);
+	// Prints: Danger Will Robinson! Danger!, to stderr
+
+# Example using the Console class:
+	const out = getStreamSomehow();
+	const err = getStreamSomehow();
+	const myConsole = new console.Console(out, err);
+	myConsole.log('hello world');
+	// Prints: hello world, to out
+	myConsole.log('hello %s', 'world');
+	// Prints: hello world, to out
+	myConsole.error(new Error('Whoops, something bad happened'));
+	// Prints: [Error: Whoops, something bad happened], to err
+	const name = 'Will Robinson';
+	myConsole.warn(`Danger ${name}! Danger!`);
+	// Prints: Danger Will Robinson! Danger!, to err
+
+# More info on console
+<a href="https://nodejs.org/api/console.html" title="Console">https://nodejs.org/api/console.html</a>
+
+The End 
+    </pre>
+  </body>
+</html>
+

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Core Node JS Debugger
+
+--
+## Using core debugger
+Node.js provides a build in non graphical debugging utility.
+
+--
+
+To start the build in the debugger, start the application with this command
+```shell
+node debug filename.js
+```
+---
+
+## Example
+The keyword debugger will stop the debugger at that point in the code.
+```js
+// @file debugDemo.js
+'use strict';
+
+function addTwoNumber(a, b){
+// function returns the sum of the two numbers
+debugger
+  return a + b;
+}
+
+var result = addTwoNumber(5, 9);
+console.log(result);
+```
+---
+
+## Command reference
+
+### Stepping
+- cont, c - Continue execution
+- next, n - Step next
+- step, s - Step in
+- out, o - Step out
+
+--
+### Breakpoints
+- setBreakpoint(), sb() - Set breakpoint on current line
+- setBreakpoint(line), sb(line) - Set breakpoint on specific line
+
+--
+
+To Debug the above code run the following command
+```shell
+node debug debugDemo.js
+```
+---
+
+### List of important debugging commands
+
+| Command	| Description                                                      |
+|---------|------------------------------------------------------------------|
+| next    | Stop at the next statement.                                      |
+| cont	  | Continue execute and stop at the debugger statement if any.      |
+| step	  | Step in function.                                                |
+| out	    | Step out of function.                                            |
+| watch	  | Add the expression or variable into watch.                       |
+| watcher	| See the value of all expressions and variables added into watch. |
+| Pause	  | Pause running code.                                              |
+
+---
+
+## Useful commands
+
+To exit from the debugger interface, type `process.exit()` or `.exit`
+
+--
+
+Use `watch(expression)` command to add the variable or expression whose value you want to watch and restart to restart the app and debugging.
+
+--
+
+Use `repl` to enter code interactively. The repl mode has the same context as the line you are debugging. This allows you to examine the contents of variables and test out lines of code. Press Ctrl+C to leave the debug repl.
+
+---
+## The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

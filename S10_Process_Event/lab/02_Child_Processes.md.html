@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Child Processes
+
+![](https://cdn-images-1.medium.com/max/800/1*I56pPhzO1VQw8SIsv8wYNA.png)
+
+---
+
+## How to use spawn(), exec(), execFile(), and fork()
+
+Single-threaded, non-blocking performance in Node.js works great for a single process. But eventually, one process in one CPU is not going to be enough to handle the increasing workload of your application.
+
+--
+
+No matter how powerful your server may be, a single thread can only support a limited load.
+
+--
+
+The fact that Node.js runs in a single thread does not mean that we can’t take advantage of multiple processes and, of course, multiple machines as well.
+
+--
+
+Using multiple processes is the best way to scale a Node application. Node.js is designed for building distributed applications with many nodes. This is why it’s named Node. Scalability is baked into the platform and it’s not something you start thinking about later in the lifetime of an application.
+
+---
+
+## The Child Processes Module
+
+We can easily spin a child process using Node’s child_process module and those child processes can easily communicate with each other with a messaging system.
+
+--
+
+The child_process module enables us to access Operating System functionalities by running any system command inside a, well, child process.
+
+--
+
+We can control that child process input stream, and listen to its output stream. We can also control the arguments to be passed to the underlying OS command, and we can do whatever we want with that command’s output. 
+
+--
+
+There are four different ways to create a child process in Node: spawn(), fork(), exec(), and execFile().
+
+---
+
+### Spawned Child Processes
+
+The spawn function launches a command in a new process and we can use it to pass that command any arguments.
+
+--
+
+For example, here’s code to spawn a new process that will execute the pwd command.
+```js
+const { spawn } = require('child_process');
+const child = spawn('pwd');
+```
+--
+
+### Spawned Child Processes ...
+
+For example, we can do something when the child process exits by registering a handler for the exit event:
+```js
+child.on('exit', function (code, signal) {
+  console.log('child process exited with ' +
+              `code ${code} and signal ${signal}`);
+});
+```
+--
+
+The other events that we can register handlers for with the ChildProcess instances are disconnect, error, close, and message.
+
+---
+
+### Spawned Child Processes ...
+
+Every child process also gets the three standard stdio streams, which we can access using child.stdin, child.stdout, and child.stderr.
+
+--
+
+On the readable streams, we can listen to the data event, which will have the output of the command or any error encountered while executing the command:
+```js
+child.stdout.on('data', (data) => {
+  console.log(`child stdout:\n${data}`);
+});
+
+child.stderr.on('data', (data) => {
+  console.error(`child stderr:\n${data}`);
+});
+```
+--
+
+For example, to execute the find command on the current directory with a -type f argument (to list files only), we can do:
+```js
+const child = spawn('find', ['.', '-type', 'f']);
+```
+---
+
+### Spawned Child Processes ...
+
+We simply pipe a readable stream into a writable stream. Since the main process stdin is a readable stream, we can pipe that into a child process stdin stream. For example:
+```js
+const { spawn } = require('child_process');
+const child = spawn('wc');
+process.stdin.pipe(child.stdin)
+child.stdout.on('data', (data) => {
+  console.log(`child stdout:\n${data}`);
+});
+```
+---
+
+### Spawned Child Processes ...
+
+For example, we can pipe the stdout of the find command to the stdin of the wc command to count all the files in the current directory:
+```js
+const { spawn } = require('child_process');
+
+const find = spawn('find', ['.', '-type', 'f']);
+const wc = spawn('wc', ['-l']);
+
+find.stdout.pipe(wc.stdin);
+
+wc.stdout.on('data', (data) => {
+  console.log(`Number of files ${data}`);
+});
+```
+---
+
+## Shell Syntax and the exec function
+
+By default, the spawn function does not create a shell to execute the command we pass into it. 
+
+This makes it slightly more efficient than the exec function, which does create a shell. The exec function has one other major difference. 
+
+It buffers the command’s generated output and passes the whole output value to a callback function (instead of using streams, which is what spawn does).
+
+Here’s the previous find | wc example implemented with an exec function.
+```js
+const { exec } = require('child_process');
+
+exec('find . -type f | wc -l', (err, stdout, stderr) => {
+  if (err) {
+    console.error(`exec error: ${err}`);
+    return;
+  }
+
+  console.log(`Number of files ${stdout}`);
+});
+```
+---
+
+## Shell Syntax and the exec function ...
+
+Here’s the same find | wc command implemented with the spawn function:
+```js
+const child = spawn('find . -type f | wc -l', {
+  stdio: 'inherit',
+  shell: true
+});
+```
+--
+
+The cwd option here will make the script count all files I have in ~/Downloads:
+```js
+const child = spawn('find . -type f | wc -l', {
+  stdio: 'inherit',
+  shell: true,
+  cwd: '/Users/samer/Downloads'
+});
+```
+---
+
+## Shell Syntax and the exec function ...
+
+If we want to override that behavior, we can simply pass an empty object as the env option or new values there to be considered as the only environment variables:
+```js
+const child = spawn('echo $ANSWER', {
+  stdio: 'inherit',
+  shell: true,
+  env: { ANSWER: 42 },
+});
+```
+--
+
+Assuming we have a file timer.js that keeps the event loop busy:
+```js
+setTimeout(() => {  
+  // keep the event loop busy
+}, 20000);
+```
+---
+
+## Shell Syntax and the exec function ...
+
+We can execute it in the background using the detached option:
+```js
+const { spawn } = require('child_process');
+
+const child = spawn('node', ['timer.js'], {
+  detached: true,
+  stdio: 'ignore'
+});
+
+child.unref();
+```
+---
+
+## The execFile function
+
+If you need to execute a file without using a shell, the execFile function is what you need. 
+
+It behaves exactly like the exec function, but does not use a shell, which makes it a bit more efficient. 
+
+On Windows, some files cannot be executed on their own, like .bat or .cmd files. 
+
+Those files cannot be executed with execFile and either exec or spawn with shell set to true is required to execute them.
+
+---
+
+## The *Sync function
+
+The functions spawn, exec, and execFile from the child_process module also have synchronous blocking versions that will wait until the child process exits.
+```js
+const { 
+  spawnSync, 
+  execSync, 
+  execFileSync,
+} = require('child_process');
+```
+
+Those synchronous versions are potentially useful when trying to simplify scripting tasks or any startup processing tasks, but they should be avoided otherwise.
+
+---
+
+## The fork() function
+
+The fork function is a variation of the spawn function for spawning node processes. 
+
+--
+
+The parent file, parent.js:
+```js
+const { fork } = require('child_process');
+
+const forked = fork('child.js');
+
+forked.on('message', (msg) => {
+  console.log('Message from child', msg);
+});
+
+forked.send({ hello: 'world' });
+```
+---
+
+## The fork() function ...
+
+The child file, child.js:
+```js
+process.on('message', (msg) => {
+  console.log('Message from parent:', msg);
+});
+
+let counter = 0;
+
+setInterval(() => {
+  process.send({ counter: counter++ });
+}, 1000);
+```
+---
+
+## The fork() function ...
+
+Let’s say we have an http server that handles two endpoints. One of these endpoints (/compute below) is computationally expensive and will take a few seconds to complete. We can use a long for loop to simulate that:
+```js
+const http = require('http');
+
+const longComputation = () => {
+  let sum = 0;
+  for (let i = 0; i < 1e9; i++) {
+    sum += i;
+  };
+  return sum;
+};
+
+const server = http.createServer();
+
+server.on('request', (req, res) => {
+  if (req.url === '/compute') {
+    const sum = longComputation();
+    return res.end(`Sum is ${sum}`);
+  } else {
+    res.end('Ok')
+  }
+});
+
+server.listen(3000);
+```
+---
+
+## The fork() function ...
+
+In a new compute.js file:
+```js
+const longComputation = () => {
+  let sum = 0;
+  for (let i = 0; i < 1e9; i++) {
+    sum += i;
+  };
+  return sum;
+};
+
+process.on('message', (msg) => {
+  const sum = longComputation();
+  process.send(sum);
+});
+```
+---
+
+## The fork() function ...
+
+Now, instead of doing the long operation in the main process event loop, we can fork the compute.js file and use the messages interface to communicate messages between the server and the forked process.
+```js
+const http = require('http');
+const { fork } = require('child_process');
+
+const server = http.createServer();
+
+server.on('request', (req, res) => {
+  if (req.url === '/compute') {
+    const compute = fork('compute.js');
+    compute.send('start');
+    compute.on('message', sum => {
+      res.end(`Sum is ${sum}`);
+    });
+  } else {
+    res.end('Ok')
+  }
+});
+
+server.listen(3000);
+```
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

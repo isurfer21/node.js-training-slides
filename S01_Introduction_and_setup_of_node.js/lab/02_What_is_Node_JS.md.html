@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># What is Node.js?
+As Wikipedia states: 
+
+> Node.js is a packaged compilation of Google’s V8 JavaScript engine, the libuv platform abstraction layer, and a core library, which is itself primarily written in JavaScript.
+
+--
+
+Beyond that, it’s worth noting that Ryan Dahl, the creator of Node.js, was aiming to create real-time websites with push capability, “inspired by applications like Gmail”. 
+
+--
+
+In Node.js, he gave developers a tool for working in the non-blocking, event-driven I/O paradigm.
+
+---
+
+## Blocking I/O (left) vs Non-Blocking I/O (right)
+I/O refers to input/output. It can be anything ranging from reading/writing local files to making an HTTP request to an API.
+
+--
+
+I/O takes time and hence blocks other functions.
+
+--
+
+Consider a scenario where we request a backend database for the details of user1 and user2 and then print them on the screen/console. 
+
+The response to this request takes time, but both of the user data requests can be carried out independently and at the same time.
+
+---
+
+## How Does It Work?
+
+> Node.js uses non-blocking, event-driven I/O to remain lightweight & efficient
+
+What it really means is that Node.js is not a silver-bullet new platform that will dominate the web development world. 
+
+--
+
+Instead, it’s a platform that fills a particular need. And understanding this is absolutely essential. 
+
+--
+
+You definitely don’t want to use Node.js for CPU-intensive operations; in fact, using it for heavy computation will annul nearly all of its advantages. 
+
+--
+
+Where Node really shines is in building fast, scalable network applications, as it’s capable of handling a huge number of simultaneous connections with high throughput, which equates to high scalability.
+
+---
+
+### How it works under-the-hood is pretty interesting. 
+Compared to traditional web-serving techniques where 
+- each connection (request) spawns a new thread, 
+- taking up system RAM and 
+- eventually maxing-out at the amount of RAM available, 
+
+Node.js operates on 
+- a single-thread, 
+- using non-blocking I/O calls, 
+- allowing it to support tens of thousands of concurrent connections held in the event loop.
+
+---
+
+### A quick calculation
+Assuming that each thread potentially has an accompanying 2 MB of memory with it, running on a system with 8 GB of RAM puts us at a theoretical maximum of 4,000 concurrent connections, plus the cost of context-switching between threads. 
+
+--
+
+That’s the scenario you typically deal with in traditional web-serving techniques. 
+
+--
+
+By avoiding all that, Node.js achieves scalability levels of over 1M concurrent connections, and over 600k concurrent websockets connections.
+
+---
+
+## Traditional Web Server Model
+![](https://www.tutorialsteacher.com/Content/images/nodejs/traditional-web-server-model.png)
+
+---
+
+## Traditional Web Server Model
+In the traditional web server model, each request is handled by a dedicated thread from the thread pool. 
+
+--
+
+If no thread is available in the thread pool at any point of time then the request waits till the next available thread. 
+
+--
+
+Dedicated thread executes a particular request and does not return to thread pool until it completes the execution and returns a response.
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

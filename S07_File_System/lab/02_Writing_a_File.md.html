@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Writing a File
+Writing to files is a frequent need when programming in any language. Like other programming languages, JavaScript with Node.js makes dealing with the file system intuitive through the use of a module dealing with the operating system's file system.
+
+---
+
+## fs ... utf8
+By default, the `fs` module will write files with an encoding of `utf8`. 
+
+Commonly used encodings are 
+- utf8
+- ascii
+- binary
+- hex
+- base64
+- utf16le
+
+---
+
+# Method 1: Using fs.writeFile
+```js
+// writefile.js
+const fs = require('fs');
+let lyrics = 'But still I\'m having memories of high speeds when the cops crashed\n' +  
+             'As I laugh, pushin the gas while my Glocks blast\n' + 
+             'We was young and we was dumb but we had heart';
+// write to a new file named 2pac.txt
+fs.writeFile('2pac.txt', lyrics, (err) => {  
+    // throws an error, you could also catch it here
+    if (err) throw err;
+    // success case, the file was saved
+    console.log('Lyric saved!');
+});
+```
+--
+
+If you need to specify the character encoding then here is the way you'll need to call the method:
+```js
+fs.writeFile('2pac.txt', 'Some other lyric', 'ascii', callback);  
+```
+---
+
+### Writing file synchronously
+There is a synchronous method `fs.writeFileSync` that you can use in place of `fs.writeFile`.
+
+The difference is that the `fs.writeFileSync` method performs input/output operations synchronously, blocking the Node.js event loop while the file is written. 
+
+---
+
+# Method 2: Using fs.write
+```js
+// fs_write.js
+
+const fs = require('fs');
+
+// specify the path to the file, and create a buffer with characters we want to write
+let path = 'ghetto_gospel.txt';  
+let buffer = new Buffer('Those who wish to follow me\nI welcome with my hands\nAnd the red sun sinks at last');
+
+// open the file in writing mode, adding a callback function where we do the actual writing
+fs.open(path, 'w', function(err, fd) {  
+    if (err) {
+        throw 'could not open file: ' + err;
+    }
+
+    // write the contents of the buffer, from position 0 to the end, to the file descriptor returned in opening our file
+    fs.write(fd, buffer, 0, buffer.length, null, function(err) {
+        if (err) throw 'error writing file: ' + err;
+        fs.close(fd, function() {
+            console.log('wrote the file successfully');
+        });
+    });
+});
+```
+---
+
+# Method 3: Using fs.createWriteStream
+```js
+// write_stream.js
+
+const fs = require('fs');
+
+let writeStream = fs.createWriteStream('secret.txt');
+
+// write some data with a base64 encoding
+writeStream.write('aef35ghhjdk74hja83ksnfjk888sfsf', 'base64');
+
+// the finish event is emitted when all data has been flushed from the stream
+writeStream.on('finish', () => {  
+    console.log('wrote all data to file');
+});
+
+// close the stream
+writeStream.end();  
+```
+---
+
+# Error Handling when Writing to a File
+When writing to files, many different errors can occur during input/output. Your code should address these potential errors. One simple thing to do is to throw the errors as Node.js exceptions. This crashes the program, and is therefore not recommended except in cases where you have little other recourse.
+
+--
+
+Alternatively, you can include try/catch blocks around the code calling the section of the program where errors can occur.
+
+---
+
+# Appending to a File with fs.appendFile
+```js
+// append_file.js
+
+const fs = require('fs');
+
+// add a line to a lyric file, using appendFile
+fs.appendFile('empirestate.txt', '\nRight there up on Broadway', (err) => {  
+    if (err) throw err;
+    console.log('The lyrics were updated!');
+});
+```
+
+--
+
+### Output
+```
+// empirestate.txt
+
+Empire State of Mind - JAY-Z
+
+I used to cop in Harlem;  
+hola, my Dominicanos 
+```
+--
+```
+Right there up on Broadway  
+```
+---
+
+# Conclusion
+- There are multiple approaches to consider when writing to a file.
+- The simplest way, and often the most appropriate, is to use the writeFile method in the fs module.
+- If you are writing larger files, you should consider the chunked writing capabilities of writable streams.
+- For special situations, you can use the lower-level fs utilities like fs.write.
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># module.exports
+
+--
+
+Each file in Node.js is a module.
+
+The items to export from a module should be attached to the `module.exports` variable.
+
+`module.exports` is defined to be a new empty object in every file.
+
+`module.exports = {}` is implicitly present.
+
+By default, every module exports an empty object, `{}`.
+
+--
+
+e.g.,
+```js
+console.log(module.exports); // {} 
+```
+---
+
+### Exports Alias
+We can export more than one variable from a module.
+
+One way of achieving this is to create a new object literal and assign that to module.exports.
+
+---
+
+### Exports Alias
+In `c:/intro/exports/myData1.js` we have
+
+```js
+var a = function () {
+    console.log('a called'); 
+}; /*from   w ww.j  a va2s  .  c o m*/
+var b = function () {
+    console.log('b called'); 
+}; 
+
+module.exports = {
+    a: a, 
+    b: b 
+}; 
+```
+---
+
+### Exports Alias
+In `c:/intro/exports/myData2.js` we have
+
+```js
+module.exports.a = function () { 
+    console.log('a called'); 
+}; 
+
+module.exports.b = function () { 
+    console.log('b called'); 
+}; 
+```
+---
+
+### Exports Alias
+Node.js helps us by creating an alias for module.exports called exports so instead of typing module.exports.something every time, you can simply use exports.something.
+
+--
+
+In `c:/intro/exports/myData3.js` we have
+
+```js
+exports.a = function () { 
+    console.log('a called'); 
+}; 
+exports.b = function () { 
+    console.log('b called'); 
+}; 
+```
+exports is just like any other JavaScript variable.
+
+--
+
+Node.js simply does `exports = module.exports`.
+
+--
+
+If we add something for example, myData to exports, that is `exports.myData = 123`, we are effectively doing `module.exports.myData = 123` since JavaScript variables are references.
+
+---
+
+### Exports Alias
+The following code shows that all of these methods are equivalent from consumption (import) point of view.
+
+--
+
+In `c:/intro/exports/app.js` we have
+
+```js
+var myData1 = require('./myData1'); 
+myData1.a(); // www .  j  av  a2s.  c o m
+myData1.b(); 
+
+var myData2 = require('./myData2'); 
+myData2.a(); 
+myData2.b(); 
+
+var myData3 = require('./myData3'); 
+myData3.a(); 
+myData3.b(); 
+```
+---
+
+### Modules Best Practices
+
+--
+
+#### Do Not Use the .js Extension
+It is better to do `require('./myData')` instead of `require('./myData.js')` even though both work fine for Node.js.
+
+--
+
+#### Relative Paths
+When using file-based modules, you need to use relative paths (in other words, do `require('./myData')` instead of `require('myData')`).
+
+--
+
+#### Utilize exports
+Try and use the exports alias when you want to export more than one thing.
+
+--
+
+The following code shows how to Create a Local Variable and Also Export
+
+```js
+var myData = exports.myData = 
+/* whatever you want to export as `myData` from this module */ ; 
+```
+
+---
+
+#### Export an Entire Folder
+If you have too many modules that go together that you keep importing into other files, try to avoid repeating the import.
+
+```js
+var myData = require('../something/myData'); 
+var myValue = require('../something/myValue'); 
+var another = require('../something/another'); 
+var third = require('../something/third'); 
+```
+
+Instead, create a single index.js in the something folder. In index.js, import all the modules once and then export them from this module.
+
+---
+
+#### Export an Entire Folder
+In `c:/yourFolder/index.js` we have
+
+```js
+exports.myData = require('./myData'); 
+exports.myValue = require('./myValue'); 
+exports.another = require('./another'); 
+exports.third = require('./third'); 
+```
+--
+
+Now you can simply import this index.js whenever you need all these things:
+
+```js
+var something = require('../something/index'); 
+```
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

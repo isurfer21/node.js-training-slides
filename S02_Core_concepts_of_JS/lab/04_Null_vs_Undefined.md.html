@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Null and Undefined
+---
+
+### undefined
+Something hasn't been initialized
+--
+
+### null
+Something is currently unavailable
+
+---
+
+### Checking for either
+Both null and undefined are only `==` to themselves and each other:
+```js
+console.log(null == null); // true (of course)
+console.log(undefined == undefined); // true (of course)
+console.log(null == undefined); // true
+```
+--
+
+You don't have to worry about falsy values making through this check
+```js
+console.log(0 == undefined); // false
+console.log('' == undefined); // false
+console.log(false == undefined); // false
+```
+---
+
+### Recommend == null to check for both undefined or null
+```js
+function foo(arg) {
+  if (arg != null) {
+    // arg must be a string as `!=` rules out both null and undefined. 
+  }
+}
+```
+--
+
+> You could also do == undefined, but == null is more conventional/shorter.
+
+---
+
+### Checking for root level undefined
+```js
+if (typeof someglobal !== 'undefined') {
+  // someglobal is now safe to use
+  console.log(someglobal);
+}
+```
+
+---
+
+### Limit explicit use of undefined
+instead of stuff like
+```js
+function foo(){
+  // if Something
+  return {a:1,b:2};
+  // else
+  return {a:1,b:undefined};
+}
+```
+--
+
+you should use a type annotation:
+```js
+function foo(){
+  // if Something
+  return {a:1,b:2};
+  // else
+  return {a:1}; // <--
+}
+```
+---
+
+### Node style callbacks
+```js
+fs.readFile('someFile', 'utf8', (err,data) => {
+  if (err) {
+    // do something
+  } else {
+    // no error
+  }
+});
+```
+When creating your own APIs it's okay to use 'null'
+
+---
+
+### Don't use undefined as a means of denoting validity
+For example an awful function like this:
+```ts
+function toInt(str:string) {
+  return str ? parseInt(str) : undefined;
+}
+```
+--
+
+can be much better written like this:
+```ts
+function toInt(str: string): { valid: boolean, int?: number } {
+  const int = parseInt(str);
+  if (isNaN(int)) {
+    return { valid: false };
+  }
+  else {
+    return { valid: true, int };
+  }
+}
+```
+---
+
+### JSON and serialization
+The JSON standard has support for encoding null but not undefined. 
+```js
+JSON.stringify({willStay: null, willBeGone: undefined}); // {"willStay":null}
+```
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

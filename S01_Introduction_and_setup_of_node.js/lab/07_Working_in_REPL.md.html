@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Working in REPL
+
+> Note: ECMAScript implementation in Node.js and browsers is slightly different. For example, {}+{} is '[object Object][object Object]' in Node.js REPL, whereas the same code is NaN in the Chrome console because of the automatic semicolon insertion feature. However, mostly Node.js REPL and the Chrome/Firefox consoles are similar.
+
+---
+
+## Important REPL commands
+
+The following table lists important REPL commands.
+
+| REPL Command		| Description                                               |
+|-------------------|-----------------------------------------------------------|
+| .help				| Display help on all the commands                          |
+| tab Keys			| Display the list of all commands.                         |
+| Up/Down Keys		| See previous commands applied in REPL.                    |
+| .save filename	| Save current Node REPL session to a file.                 |
+| .load filename	| Load the specified file in the current Node REPL session. |
+| ctrl + c			| Terminate the current command.                            |
+| ctrl + c (twice)	| Exit from the REPL.                                       |
+| ctrl + d			| Exit from the REPL.                                       |
+| .break			| Exit from multiline expression.                           |
+| .clear			| Exit from multiline expression.                           |
+
+---
+
+# Warning w.r.t. global console instance
+The global console object's methods are neither consistently synchronous like the browser APIs they resemble, nor are they consistently asynchronous like all other Node.js streams. 
+
+See the note on process I/O for more information.
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>

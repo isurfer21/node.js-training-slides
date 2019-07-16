@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Slide</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+    @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+    @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+    body{font-family:'Droid Serif'}h1,h2,h3{font-family:'Yanone Kaffeesatz';font-weight:normal}.remark-code,.remark-inline-code{font-family:'Ubuntu Mono'}img{width:100%}blockquote{background:#f9f9f9;border-left:10px solid #ccc;margin:1.5em 10px;padding:0.5em 10px;quotes:"\201C""\201D""\2018""\2019"}blockquote:before{color:#ccc;content:open-quote;font-size:4em;line-height:0.1em;margin-right:0.25em;vertical-align:-0.4em}blockquote p{display:inline}table{border-collapse:collapse;font-family:'calibri'}td{border:1px solid grey;vertical-align:top;padding:3px 3px}td:first-child{background-color:lightgrey}th{background-color:lightgrey;border:1px solid grey;padding:3px 3px}
+    </style>
+  </head>
+  <body>
+    <textarea id="source"># Node.js Console
+Node.js comes with virtual environment called REPL (aka Node shell). REPL stands for Read-Eval-Print-Loop. It is a quick and easy way to test simple Node.js/JavaScript code.
+
+--
+
+To launch the REPL (Node shell), open command prompt (in Windows) or terminal (in Mac or UNIX/Linux) and type node as shown below. It will change the prompt to > in Windows and MAC.
+
+---
+
+## Node.js Console
+
+You can now test pretty much any Node.js/JavaScript expression in REPL. For example, if your write "10 + 20" then it will display result 30 immediately in new line.
+```shell
+> 10 + 20 
+30
+```
+--
+
+The + operator also concatenates strings as in browser's JavaScript.
+```shell
+> "Hello" + "World" 
+Hello World
+```
+--
+
+You can also define variables and perform some operation on them.
+```shell
+> var x = 10, y = 20; 
+> x + y 
+30
+```
+---
+
+## Node.js Console
+
+If you need to write multi line JavaScript expression or function then just press Enter whenever you want to write something in the next line as a continuation of your code. The REPL terminal will display three dots (...), it means you can continue on next line. Write .break to get out of continuity mode.
+
+--
+
+For example, you can define a function and execute it as shown below.
+
+--
+
+You can execute an external JavaScript file by writing node fileName command. 
+
+--
+
+For example, assume that `node-example.js` is on C drive of your PC with following code.
+```js
+node-example.js
+console.log("Hello World");
+```
+---
+
+## Node.js Console
+
+Now, you can execute `node-example.js` from command prompt as shown before.
+
+> To exit from the REPL terminal, press Ctrl + C twice or write .exit and press Enter.
+
+--
+
+Thus, you can execute any Node.js/JavaScript code in the node shell (REPL). 
+
+--
+
+This will give you a result which is similar to the one you will get in the console of Google Chrome browser.
+
+---
+
+# The End</textarea>
+    <script src="../../../core/remark.js"></script>
+    <script>window.slideshow=remark.create({});window.LiveReloadOptions={host:'localhost',port:'35729'};</script>
+  </body>
+</html>
