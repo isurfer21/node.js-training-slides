@@ -103,4 +103,4 @@ The node.js training presentation slides
 
 - [S14: Project Development](S14_Project_Development/index.html)
 
-  - [Project Development](S14_Project_Development/01_Project_Development.md.html)
+  - [Project Development](S14_Project_Development/lab/01_Project_Development.md.html)
