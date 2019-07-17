@@ -102,3 +102,5 @@ The node.js training presentation slides
   - [Database Connectivity](S13_Database_Connectivity/lab/01_Database_Connectivity.md.html)
 
 - [S14: Project Development](S14_Project_Development/index.html)
+
+  - [Project Development](S14_Project_Development/01_Project_Development.md.html)
